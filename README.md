@@ -4,7 +4,7 @@ This is a signin page with username and password
 ##SignIn Screenshots
 
 ### 1. SignIn Page  
-![SignIn Page](screenshots/Screenshot(476).png)
+![SignIn Page](screenshots/Screenshot (476).png)
 
 ### 2. Empty Input Message 
 ![Login Successful Message](screenshots/Screenshot(477).png)
