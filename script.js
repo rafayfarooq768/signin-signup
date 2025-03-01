@@ -1,25 +1,28 @@
 document.addEventListener("DOMContentLoaded", function () {
-    document.addEventListener("DOMContentLoaded", function () {
-        const loginForm = document.querySelector(".signin form");
-        if (loginForm) {
-            loginForm.addEventListener("submit", function (event) {
-                event.preventDefault();
-                const username = loginForm.querySelector("input[type='text']").value.trim();
-                const password = loginForm.querySelector("input[type='password']").value.trim();
-    
-                if (username === "") {
-                    alert("Username cannot be empty!");
-                    return;
-                }
-                if (password === "") {
-                    alert("Password cannot be empty!");
-                    return;
-                }
-                alert("Login Successful!");
+    const loginForm = document.querySelector(".signin form");
+    if (loginForm) {
+        loginForm.addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            const username = loginForm.querySelector("input[type='text']").value.trim();
+            const password = loginForm.querySelector("input[type='password']").value.trim();
+
+            if (username === "") {
+                alert("Username cannot be empty!");
+                return;
+            }
+            if (password === "") {
+                alert("Password cannot be empty!");
+                return;
+            }
+
+            alert("Login Successful!");
+
+            setTimeout(() => {
                 loginForm.submit();
-            });
-        }
-    });    
+            }, 500); 
+        });
+    }
 
     const signupForm = document.querySelector(".signup");
     if (signupForm) {
@@ -28,75 +31,68 @@ document.addEventListener("DOMContentLoaded", function () {
             event.preventDefault();
 
             const inputs = signupForm.querySelectorAll(".input-box input, .input-box select");
-            let valid = true;
+            let isValid = true;
 
-            const fullName = inputs[0].value.trim();
-            const email = inputs[1].value.trim();
-            const username = inputs[2].value.trim();
-            const password = inputs[3].value.trim();
-            const confirmPassword = inputs[4].value.trim();
-            const gender = inputs[5];
-            const dob = inputs[6].value;
-            const phone = inputs[7].value.trim();
+            const [fullName, email, username, password, confirmPassword, gender, dob, phone] = inputs;
 
-            if (fullName === "") {
+            if (!fullName.value.trim()) {
                 alert("Full Name cannot be empty!");
-                valid = false;
+                isValid = false;
             }
 
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
+            if (!emailRegex.test(email.value.trim())) {
                 alert("Enter a valid email address!");
-                valid = false;
+                isValid = false;
             }
 
-            if (username === "") {
+            if (!username.value.trim()) {
                 alert("Username cannot be empty!");
-                valid = false;
+                isValid = false;
             }
 
             const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
-            if (!passwordRegex.test(password)) {
+            if (!passwordRegex.test(password.value.trim())) {
                 alert("Password must be at least 8 characters, include 1 number, and 1 special character!");
-                valid = false;
+                isValid = false;
             }
 
-            if (password !== confirmPassword) {
+            if (password.value.trim() !== confirmPassword.value.trim()) {
                 alert("Passwords do not match!");
-                valid = false;
+                isValid = false;
             }
 
-            if (gender.selectedIndex === 0) { 
+            if (gender.selectedIndex === 0) {
                 alert("Please select a gender!");
-                valid = false;
+                isValid = false;
             }
 
-            if (!dob) {
+            if (!dob.value) {
                 alert("Please enter your date of birth!");
-                valid = false;
+                isValid = false;
             } else {
-                const birthDate = new Date(dob);
+                const birthDate = new Date(dob.value);
                 const today = new Date();
                 let age = today.getFullYear() - birthDate.getFullYear();
-                
-                const monthDiff = today.getMonth() - birthDate.getMonth();
-                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+
+                if (today.getMonth() < birthDate.getMonth() || 
+                    (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
                     age--;
                 }
 
                 if (age < 18 || age > 100) {
                     alert("You must be between 18 and 100 years old!");
-                    valid = false;
+                    isValid = false;
                 }
             }
 
             const phoneRegex = /^\d{11}$/;
-            if (!phoneRegex.test(phone)) {
+            if (!phoneRegex.test(phone.value.trim())) {
                 alert("Phone number must be 11 digits!");
-                valid = false;
+                isValid = false;
             }
 
-            if (valid) {
+            if (isValid) {
                 alert("Sign Up Successful!");
                 signupForm.submit();
             }
